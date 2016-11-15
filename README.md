@@ -74,7 +74,7 @@ public class User {
 <hibernate-configuration>
 	
 	<session-factory>
-        <！-- 链接配置 -->
+        <!-- 链接配置 -->
         ......
         
         <!-- 映射配置 -->
