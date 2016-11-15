@@ -62,7 +62,33 @@ public class User {
 
 ```
 
-### 3. 您还需要一个DAO
+### 3. 您需要在hibernate.cfg.xml里添上映射
+
+```xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	
+	<session-factory>
+        <！-- 链接配置 -->
+        ......
+        
+        <!-- 映射配置 -->
+        <!-- xml使用resource -->
+        <!-- 注解使用class -->
+        <mapping class="me.cjd.pojo.User"/>
+	
+    </session-factory>
+
+</hibernate-configuration>
+
+```
+
+### 4. 您还需要一个DAO
 
 > 单独使用方法，请继承 DefaultSessionDAO，且必须使用ProxyKit进行事务托管
 
@@ -90,7 +116,7 @@ public class UserDAO extends SpringSessionDAO<User, Integer> {
 }
 ```
 
-### 4. 使用范例
+### 5. 使用范例
 
 > 基础方法
 
@@ -215,4 +241,4 @@ public void sqlExc(){
 感谢您花费时间阅读这份说明稿。
 
 作者 cjd   
-2016 年 11月 01日    
+2016 年 11月15日    
