@@ -7,8 +7,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import me.cjd.pojo.User;
-import me.cjd.service.UserService;
+import me.cjd.pojo.TestUser;
+import me.cjd.service.TestUserService;
 import me.cjd.kit.HibernateKit;
 import me.cjd.kit.ProxyKit;
 import me.cjd.hibernate.dao.UserDAO;
@@ -18,12 +18,12 @@ import junit.framework.TestCase;
 public class Tester extends TestCase {
 	
 	// 使用事务代理
-	UserService service = ProxyKit.transaction(new UserService());
+	private TestUserService service = ProxyKit.transaction(new TestUserService());
 	
 	@Test
 	@Ignore
 	public void save(){
-		User user = new User();
+		TestUser user = new TestUser();
 		user.setNickname("测试");
 		user.setAccount("test");
 		Integer id = UserDAO.me.save(user);
@@ -33,7 +33,7 @@ public class Tester extends TestCase {
 	@Test
 	@Ignore
 	public void update(){
-		User user = UserDAO.me.getById(20);
+		TestUser user = UserDAO.me.getById(20);
 		assertNotNull(user);
 		String newPassword = Integer.toString(2);
 		user.setPassword(newPassword);
@@ -51,9 +51,9 @@ public class Tester extends TestCase {
 	@Test
 	@Ignore
 	public void getByIdMore(){
-		User pojo1 = UserDAO.me.getById(24);
-		User pojo2 = UserDAO.me.getById(23);
-		User pojo3 = UserDAO.me.getById(22);
+		TestUser pojo1 = UserDAO.me.getById(24);
+		TestUser pojo2 = UserDAO.me.getById(23);
+		TestUser pojo3 = UserDAO.me.getById(22);
 		assertNotNull(pojo1);
 		assertNotNull(pojo2);
 		assertNotNull(pojo3);
@@ -62,14 +62,14 @@ public class Tester extends TestCase {
 	@Test
 	@Ignore
 	public void findHql(){
-		List<User> list = UserDAO.me.find("from User");
+		List<TestUser> list = UserDAO.me.find("from TestUser");
 		assertNotNull(list);
 	}
 	
 	@Test
 	@Ignore
 	public void findSql(){
-		List<User> list = UserDAO.me.findSQL(User.class, "select * from user");
+		List<TestUser> list = UserDAO.me.findSQL(TestUser.class, "select * from user");
 		assertNotNull(list);
 		System.out.println(list.get(0).getNickname());
 		
@@ -81,7 +81,7 @@ public class Tester extends TestCase {
 	@Test
 	@Ignore
 	public void findHqlPage(){
-		List<User> page1 = UserDAO.me.findPage("from User", 0, 5);
+		List<TestUser> page1 = UserDAO.me.findPage("from TestUser", 0, 5);
 		assertNotNull(page1);
 		System.out.println(page1.get(0).getNickname());
 	}
@@ -89,7 +89,7 @@ public class Tester extends TestCase {
 	@Test
 	@Ignore
 	public void findFirst(){
-		String nickname = UserDAO.me.findFirst("select nickname from User");
+		String nickname = UserDAO.me.findFirst("select nickname from TestUser");
 		assertNotNull(nickname);
 		System.out.println(nickname);
 	}
@@ -97,7 +97,7 @@ public class Tester extends TestCase {
 	@Test
 	@Ignore
 	public void findPageSql(){
-		List<User> page1 = UserDAO.me.findPageSQL(User.class, "select * from user", 0, 5);
+		List<TestUser> page1 = UserDAO.me.findPageSQL(TestUser.class, "select * from user", 0, 5);
 		assertNotNull(page1);
 		assertEquals(page1.size(), 5);
 		System.out.println(page1.get(0).getNickname());
@@ -110,16 +110,20 @@ public class Tester extends TestCase {
 		assertNotNull(nickname);
 		System.out.println(nickname);
 		
-		User user = UserDAO.me.findFirstSQL(User.class, "select * from user");
+		TestUser user = UserDAO.me.findFirstSQL(TestUser.class, "select * from user");
 		assertNotNull(user);
 		System.out.println(user.getNickname());
 	}
 	
 	@Test
-	@Ignore
 	public void testProxy(){
 		String nickname = this.service.findFirstSQL();
+		System.out.println("SQL Result: " + nickname);
 		assertNotNull(nickname);
+		
+		String nickname2 = this.service.findFirst();
+		System.out.println("HQL Result: " + nickname2);
+		assertNotNull(nickname2);
 	}
 	
 	@Test
@@ -129,6 +133,7 @@ public class Tester extends TestCase {
 	}
 	
 	@Test
+	@Ignore
 	public void testExecuteSQL(){
 		assertEquals(this.service.sqlExc(), true);
 	}

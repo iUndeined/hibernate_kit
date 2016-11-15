@@ -1,14 +1,30 @@
 package me.cjd.pojo;
 
-public class User {
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity  
+@Table(name="user")
+public class TestUser {
 	
+	@Id  
+	@Column
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column
 	private String nickname;
+	@Column
 	private String account;
+	@Column
 	private String password;
+	@Column
 	private String roles;
 	
-	public User() {
+	public TestUser() {
 		super();
 	}
 

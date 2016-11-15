@@ -3,20 +3,23 @@ package me.cjd.service;
 import me.cjd.hibernate.annotation.Readonly;
 import me.cjd.hibernate.annotation.Transaction;
 import me.cjd.hibernate.dao.UserDAO;
-import me.cjd.pojo.User;
+import me.cjd.pojo.TestUser;
 
 @Transaction
-public class UserService {
+public class TestUserService {
+	
+	@Readonly
+	public String findFirst(){
+		return UserDAO.me.findFirst("select nickname from TestUser");
+	}
 	
 	@Readonly
 	public String findFirstSQL(){
-		String nickname = UserDAO.me.findFirstSQL("select nickname from user");
-		System.out.println(nickname);
-		return nickname;
+		return UserDAO.me.findFirstSQL("select nickname from user");
 	}
 	
 	public boolean saveSometing(){
-		User user = new User();
+		TestUser user = new TestUser();
 		user.setNickname("陈剑冬6");
 		user.setAccount("chenjiandong6");
 		user.setPassword(Integer.toString(1));

@@ -14,7 +14,7 @@ public class HibernateKit {
     private static SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            return new Configuration().configure("hibernate/hibernate.cfg.xml").buildSessionFactory();
+        	return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
         }
         catch (Exception ex) {
             // Make sure you log the exception, as it might be swallowed

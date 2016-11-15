@@ -2,6 +2,7 @@ package me.cjd.hibernate.proxy;
 
 import java.lang.reflect.Method;
 import org.apache.log4j.Logger;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import net.sf.cglib.proxy.MethodProxy;
 import me.cjd.hibernate.annotation.Readonly;
@@ -39,14 +40,14 @@ public class CglibTransactionHandler extends CglibHandler {
 		Object proxyObj = null;
 		
 		try {
+			Readonly only = method.getDeclaredAnnotation(Readonly.class);
 			session = HibernateKit.getSession();
+			// 处理只读业务
+			session.setFlushMode(only == null ? FlushMode.AUTO : FlushMode.MANUAL);
 			tx = session.beginTransaction();
 			proxyObj = proxy.invokeSuper(obj, args);
-			Readonly only = method.getDeclaredAnnotation(Readonly.class);
-			// 非只读事务才提交
-			if (only == null) {
-				tx.commit();
-			}
+			// 事务必须提交
+			tx.commit();
 		} catch (Exception e) {
 			RollbackFor rollFor = method.getDeclaredAnnotation(RollbackFor.class);
 			if (rollFor == null) {

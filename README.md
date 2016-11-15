@@ -39,12 +39,21 @@
 
 ```java
 
+@Entity  
+@Table(name="user")
 public class User {
 	
+	@Id  
+	@Column
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column
 	private String nickname;
+	@Column
 	private String account;
+	@Column
 	private String password;
+	@Column
 	private String roles;
     
     // getter setter
